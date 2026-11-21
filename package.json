@@ -1,0 +1,136 @@
+{
+  "name": "erlang-structure",
+  "displayName": "Erlang Structure",
+  "description": "Source-ordered Erlang symbols and explicit regions in Explorer.",
+  "version": "0.1.0",
+  "publisher": "Pakti",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Pakti/vs-code-erlang-outline.git"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "main": "./out/src/extension.js",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "npm run build && node --test out/test/*.test.js",
+    "test:integration": "npm run build && node out/test/launch.js",
+    "package": "npm run build && vsce package --out erlang-structure.vsix",
+    "benchmark": "npm run build && node out/test/benchmark.js"
+  },
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "erlangStructure",
+          "name": "Erlang Structure"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "erlangStructure",
+        "contents": "Open an Erlang document to see its structure.",
+        "when": "!erlangStructure.hasDocument"
+      }
+    ],
+    "commands": [
+      {
+        "command": "erlangStructure.refresh",
+        "title": "Refresh",
+        "category": "Erlang Structure",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "erlangStructure.follow",
+        "title": "Toggle Follow Cursor",
+        "category": "Erlang Structure",
+        "icon": "$(pin)"
+      },
+      {
+        "command": "erlangStructure.reveal",
+        "title": "Reveal Current Symbol",
+        "category": "Erlang Structure",
+        "icon": "$(go-to-file)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "erlangStructure.refresh",
+          "when": "view == erlangStructure",
+          "group": "navigation@1"
+        },
+        {
+          "command": "erlangStructure.follow",
+          "when": "view == erlangStructure",
+          "group": "navigation@3"
+        },
+        {
+          "command": "erlangStructure.reveal",
+          "when": "view == erlangStructure",
+          "group": "navigation@4"
+        }
+      ]
+    },
+    "colors": [
+      {
+        "id": "erlangStructure.exportedFunctionForeground",
+        "description": "Icon foreground for exported Erlang functions.",
+        "defaults": {
+          "light": "#005B9E",
+          "dark": "#61C9FF",
+          "highContrast": "#79D9FF",
+          "highContrastLight": "#005090"
+        }
+      },
+      {
+        "id": "erlangStructure.privateFunctionForeground",
+        "description": "Icon foreground for private Erlang functions.",
+        "defaults": {
+          "light": "#505760",
+          "dark": "#AEB7C2",
+          "highContrast": "#D9E0E8",
+          "highContrastLight": "#444444"
+        }
+      },
+      {
+        "id": "erlangStructure.unknownFunctionForeground",
+        "description": "Icon foreground for unknown Erlang functions.",
+        "defaults": {
+          "light": "#805000",
+          "dark": "#E8B655",
+          "highContrast": "#FFD070",
+          "highContrastLight": "#713F00"
+        }
+      }
+    ],
+    "languages": [
+      {
+        "id": "erlang",
+        "aliases": [
+          "Erlang"
+        ],
+        "extensions": [
+          ".erl",
+          ".hrl"
+        ]
+      }
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "20.19.43",
+    "@types/vscode": "1.90.0",
+    "@vscode/test-electron": "3.1.0",
+    "@vscode/vsce": "4.1.1",
+    "eslint": "9.39.5",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.73.0"
+  }
+}
